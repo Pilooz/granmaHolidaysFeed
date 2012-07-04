@@ -20,4 +20,5 @@ require 'exifr'
 # Initialize controllers and models
 require __DIR__('config/init')
 require __DIR__('model/init')
+require __DIR__('lib/init')
 require __DIR__('controller/init')

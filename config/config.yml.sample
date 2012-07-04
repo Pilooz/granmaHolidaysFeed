@@ -6,7 +6,7 @@
   :email      : 'email@company.com'
   :meta_desc  : 'Some, meta, key words'
   :meta_author: 'Author'
-  :images_dir : '/pictures' # The directory where the attached pictures will be stored. 
+  :images_dir : '../public/pictures' # The directory where the attached pictures will be stored. 
 
 #
 # Mail configuration

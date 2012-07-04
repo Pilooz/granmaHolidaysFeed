@@ -36,17 +36,17 @@ div.usage a {
 </script>
 
 <div class="row">
-  <?r if !@mailimagefile.nil? ?>
-    <a class="thumbnail span3" href="#{MYCONF[:images_dir]}/#{@mailimagefile}">
-      <img src="#{MYCONF[:images_dir]}/#{@mailimagefile}" width="260" height="180"/>
+  <?r if !@mail.mailimagefile.nil? ?>
+    <a class="thumbnail span3" href="pictures/#{@mail.mailimagefile}">
+      <img src="pictures/#{@mail.mailimagefile}" width="260" height="180"/>
     </a>
   <?r end ?>
   
-  <!--em class="span2 offset2 label label-warning">#{@maildate}</em-->
+  <!--em class="span2 offset2 label label-warning">#{@mail.maildate}</em-->
     <p class="span12 well">
-    <span class="title">#{@mailsubject}</span>
+    <span class="title">#{@mail.mailsubject}</span>
       <br>
-      #{@mailtext}
+      #{@mail.mailtext}
     </p>
 
 </div>
