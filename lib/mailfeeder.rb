@@ -2,7 +2,7 @@
 
 class MailFeeder
   # TODO : Les accesseurs sur les données qu'on veut mettre dans les vues.
-  attr_accessor :lastmail, :mailmsgid, :mailsubject, :maildate, :mailtext, 
+  attr_accessor :lastmail, :mailmsgid, :mailsubject, :maildate, :mailtime, :mailtext, 
                 :mailimagefile, :mailimagewidth, :mailimageheight, :mailimagelat, :mailimagelong
  
   # Initilize The connection to mail server
@@ -28,9 +28,11 @@ class MailFeeder
     @mailsubject = @lastmail.subject.force_encoding('UTF-8')
   end
   
-  # Retrieves the mail date of the array of mails, and force char encoding
+  # Retrieves the mail date of the array of mails, and force char encoding without hours/min/sec.
   def getsubject
-    @maildate = @lastmail.date.to_s.force_encoding('UTF-8')
+    date = @lastmail.date.to_s.force_encoding('UTF-8')
+    @maildate = date[0..9]
+    @mailtime = date[11..18]
   end
   
   # Retrieving the body of the mail, in multipart mail, 

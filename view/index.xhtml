@@ -6,8 +6,13 @@
   margin: 0;
   display:block;
 }
-#btn-refresh {
+#btn-refresh, #btn-view-all {
   float:right;
+}
+
+.maildate, .mailtime {
+  float:right;
+  margin-left:5px;
 }
 
 div.usage {
@@ -33,8 +38,25 @@ div.usage a {
   	$( 'div#carte iframe' ).attr( 'src', function ( i, val ) { return val; });
   }
   
+  // Show all mail history
+  function showAllMails(b) {
+    $('div#history').toggle();
+     if ($('div#history').css('display') == 'none') {
+          $('#btn-view-all').html('<i class="icon-th-list"></i>&nbsp;Tout voir &#9658');
+     }
+     else {
+          $('#btn-view-all').html('<i class="icon-th-list"></i>&nbsp;Masquer &#9660');
+          ajaxLoadAllMails();
+     }  };
+  
+  // loading all mails in ajax
+  function ajaxLoadAllMails() {
+    alert ('Wait... loading mails data...');
+  }
+    
 </script>
 
+<!-- last mail -->
 <div class="row">
   <?r if !@mail.mailimagefile.nil? ?>
     <a class="thumbnail span3" href="pictures/#{@mail.mailimagefile}">
@@ -42,17 +64,27 @@ div.usage a {
     </a>
   <?r end ?>
   
-  <!--em class="span2 offset2 label label-warning">#{@mail.maildate}</em-->
     <p class="span12 well">
-    <span class="title">#{@mail.mailsubject}</span>
+      <!-- date & time -->
+      <em class="label label-success mailtime">#{@mail.mailtime}</em>
+      <em class="label label-warning maildate">#{@mail.maildate}</em>
+      <!-- subject, text -->
+      <span class="title">#{@mail.mailsubject}</span>
       <br>
       #{@mail.mailtext}
+      <a id="btn-view-all" class="offset9 btn btn-default" href="javascript:showAllMails();"><i class="icon-th-list"></i>&nbsp;Tout voir &#9658</a>
     </p>
-
 </div>
-<div class="span12">&nbsp;</div>
+    
+<!-- mail history -->
+<div id="history" class="row hide">
+showing mail history...
+</div>
 
-<!-- Carte -->
+<!-- separator -->
+<div class="row">&nbsp;</div>
+
+<!-- map -->
 <div class="row">
   <div id="carte" class="span12 well">
     <!-- BEGIN INSTAMAPPER CODE -->
@@ -61,7 +93,7 @@ div.usage a {
     <a id="btn-refresh" class="offset9 btn btn-inverse" href="javascript:reloadIframe();"><i class="icon-refresh icon-white"></i>&nbsp;recharger la carte</a>
   </div>
   
-  <!-- Flux twitter -->
+  <!-- twitter flow -->
   <div id="filtwitter" class="span3 well" style="padding-left:0px;width:247px;">
   <script src="http://widgets.twimg.com/j/2/widget.js"></script>
   <script>
@@ -115,6 +147,6 @@ div.usage a {
 
 <div class="row">
   <div class="well usage">
-    Utilisez le hashtag <a href="https://twitter.com/#{MYCONF[:twitter_hashtag1].downcase!}" target="_blank">#{MYCONF[:twitter_hashtag1]}</a> pour nous envoyer des réponses dans ce flux.
+    Utilisez le hashtag <a href="https://twitter.com/#{MYCONF[:twitter_hashtag1]}" target="_blank">#{MYCONF[:twitter_hashtag1]}</a> pour nous envoyer des réponses dans ce flux.
   </div>
 </div>

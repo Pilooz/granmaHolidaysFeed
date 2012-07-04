@@ -18,9 +18,15 @@ class MainController < Controller
     # One page site stuff
                 
     #Each time someone's viewving this page, we launch mail reading...
-    @mail = MailFeeder.new(MYCONF[:mail_server], MYCONF[:mail_port], MYCONF[:mail_username], MYCONF[:mail_password], __DIR__(MYCONF[:images_dir]))
+    @mail = MailFeeder.new( MYCONF[:mail_server], 
+                            MYCONF[:mail_port], 
+                            MYCONF[:mail_username], 
+                            MYCONF[:mail_password],
+                             __DIR__(MYCONF[:images_dir])
+                          )
     @mail.getlastmail
-    puts @mail.mailsubject
   end
+  
+  # Ajax route to laod mail history
 end
 
