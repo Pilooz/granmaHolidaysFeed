@@ -1,0 +1,3 @@
+public/pictures/*
+config/*.yml
+Gemfile.lock

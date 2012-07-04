@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta http-equiv="Pragma" content="no-cache">
+        <meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="#{@meta_desc}">
+        <meta name="author" content="#{@meta_author}">       
+         
+        <title>#{MYCONF[:title]}</title>
+
+        #{css('bootstrap')}
+        <style type="text/css">
+          body {
+            padding-top: 60px;
+            padding-bottom: 40px;
+          }
+         </style>
+  
+        #{css('jquery.lightbox-0.5')}
+        <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+        <!--[if lt IE 9]>
+          <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+        
+        #{js('jquery.min')}
+        #{js('jquery.lightbox-0.5.min')}
+        #{js('twitter-text')}
+        
+     </head>
+    <body>
+
+      <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+          <div class="container-fluid">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="/">#{MYCONF[:appname]}</a>
+            <div class="nav-collapse">
+              <!--ul class="nav">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+              </ul-->
+            </div><!--/.nav-collapse -->
+          </div>
+        </div>
+      </div>
+      
+      <div class="container-fluid">
+        <div class="row-fluid">
+
+          <div class='span12'>
+            <h2 id="panel-title">#{MYCONF[:title]}</h2>
+          </div>
+          
+          <div id="panel-content">
+            #{@content}
+          </div>
+        </div><!--/row-->
+
+        
+        <hr>
+
+      <footer>
+        <p>&copy; #{MYCONF[:appname]} 2012</p>
+      </footer>
+
+    </div><!--/.fluid-container-->
+      #{js('bootstrap.min')}
+      #{js('bootstrap-modal')}
+    </body>
+</html>

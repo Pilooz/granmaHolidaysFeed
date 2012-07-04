@@ -1,0 +1,120 @@
+<style type="text/css">
+.title {
+  font-size: 18px;
+  line-height: 27px;
+  font-weight: bold;
+  margin: 0;
+  display:block;
+}
+#btn-refresh {
+  float:right;
+}
+
+div.usage {
+  color: #0088CC;
+  margin:10px;
+}
+
+div.usage a {
+  color: black;
+  font-weight:bold;
+}
+
+</style>
+
+<script type="text/javascript">
+  // Lightbox on picture link
+  $(function() {
+  	$('a.thumbnail').lightBox(); 
+  });
+  
+  // Refreshing Gps Trace
+  function reloadIframe() {
+  	$( 'div#carte iframe' ).attr( 'src', function ( i, val ) { return val; });
+  }
+  
+</script>
+
+<div class="row">
+  <?r if !@mailimagefile.nil? ?>
+    <a class="thumbnail span3" href="#{MYCONF[:images_dir]}/#{@mailimagefile}">
+      <img src="#{MYCONF[:images_dir]}/#{@mailimagefile}" width="260" height="180"/>
+    </a>
+  <?r end ?>
+  
+  <!--em class="span2 offset2 label label-warning">#{@maildate}</em-->
+    <p class="span12 well">
+    <span class="title">#{@mailsubject}</span>
+      <br>
+      #{@mailtext}
+    </p>
+
+</div>
+<div class="span12">&nbsp;</div>
+
+<!-- Carte -->
+<div class="row">
+  <div id="carte" class="span12 well">
+    <!-- BEGIN INSTAMAPPER CODE -->
+    <iframe width="100%" scrolling="no" height="568" frameborder="0" src="http://www.instamapper.com/ext?key=#{MYCONF[:instantmapper_key]}&width=800&height=500&zoom=11&type=roadmap&units=metric&coords=dms&num_points=1000" style="border:1px solid;"></iframe>
+    GPS tracking powered by <a href="http://www.instamapper.com">InstaMapper.com</a><br />
+    <a id="btn-refresh" class="offset9 btn btn-inverse" href="javascript:reloadIframe();"><i class="icon-refresh icon-white"></i>&nbsp;recharger la carte</a>
+  </div>
+  
+  <!-- Flux twitter -->
+  <div id="filtwitter" class="span3 well" style="padding-left:0px;width:247px;">
+  <script src="http://widgets.twimg.com/j/2/widget.js"></script>
+  <script>
+  // http://www.1stwebdesigner.com/css/customize-twitter-search-widgets/
+  
+  new TWTR.Widget({
+      version: 2,
+      type: 'search', //'profile', 'list'
+      search: 'from:#{MYCONF[:twitter_account]} OR #{MYCONF[:twitter_hashtag1]}', 
+      rpp: 100,
+      interval: 3000,
+      title: '#{MYCONF[:twitter_title]}',
+      subject: '#{MYCONF[:twitter_subject]}',
+      width: 265,
+      height: 500,
+      
+      theme: {
+          shell: {
+              background: 'transparent', 
+              color: '0088cc'
+          },
+          tweets: {
+              background: 'transparent', 
+              color: '#D21A00',
+              links: '#4A412E'
+          }
+      },
+      
+      features: {
+          scrollbar: true,
+          loop: true,
+          live: false,
+          hashtags: true,
+          timestamp: true,
+          avatars: true,
+          toptweets: true,
+          behavior: 'default', //'all'
+      },
+      ready: function() {
+          // when done rendering...
+          // Démarrer le timer !
+      }
+      
+  }).render().start();
+  </script>
+  <style>
+  .twtr-widget h3 { font-weight:13px !important;}
+  </style>
+  </div>
+</div>
+
+<div class="row">
+  <div class="well usage">
+    Utilisez le hashtag <a href="https://twitter.com/#{MYCONF[:twitter_hashtag1].downcase!}" target="_blank">#{MYCONF[:twitter_hashtag1]}</a> pour nous envoyer des réponses dans ce flux.
+  </div>
+</div>
