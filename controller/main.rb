@@ -12,7 +12,10 @@
 
 
 class MainController < Controller
-        
+       
+  layout 'default'
+  set_layout nil => [:loadhistory]
+  
   # the index action is called automatically when no other action is specified
   def index
     # One page site stuff
@@ -28,5 +31,16 @@ class MainController < Controller
   end
   
   # Ajax route to laod mail history
+  def loadhistory
+    @mail = MailFeeder.new( MYCONF[:mail_server], 
+                            MYCONF[:mail_port], 
+                            MYCONF[:mail_username], 
+                            MYCONF[:mail_password],
+                             __DIR__(MYCONF[:images_dir])
+                          )
+    @listmail = @mail.getlastmails(10)
+    render_view :loadhistory
+  end
+  
 end
 
