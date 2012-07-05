@@ -1,0 +1,29 @@
+.title {
+  font-size: 18px;
+  line-height: 27px;
+  font-weight: bold;
+  margin: 0;
+  display:block;
+}
+#btn-refresh, #btn-view-all {
+  float:right;
+}
+
+.maildate, .mailtime {
+  float:right;
+  margin-left:5px;
+}
+
+div.usage {
+  color: #0088CC;
+  margin:10px;
+}
+
+div.usage a {
+  color: black;
+  font-weight:bold;
+}
+
+.loading {
+  margin-left:47%;
+}

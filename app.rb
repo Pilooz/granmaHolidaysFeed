@@ -11,14 +11,11 @@ Ramaze.options.roots = [__DIR__]
 # Dependencies. 
 require 'ramaze/helper/user'
 require 'yaml'
-
 require 'mail'
-#require 'I18n'
 require 'exifr'
 
 
 # Initialize controllers and models
 require __DIR__('config/init')
-require __DIR__('model/init')
 require __DIR__('lib/init')
 require __DIR__('controller/init')

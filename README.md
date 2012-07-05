@@ -4,7 +4,9 @@ GranmaHohidaysFeed
 Introduction
 ------------
 
-This an one page web site written in ruby/ramaze that give the last inorfmation about your familie holidays to your Granma.
+This is an one page web site written in ruby/ramaze that give the last inorfmations about your familie holidays to your Granma.
+The feeding of this page is done by twitter, mail, and instaMapper : you need only an Iphone to contribute...
+
 No local storage needed. This page agregates :
 
 * a twitter flow (one account + one hashtag) for 140 char messages !
@@ -23,14 +25,13 @@ Roadmap
 
 Next TODO:
 
-* dealing with serveral attachement ?
 * trying to take video mime in account in mail attachement     
-* Add link to create a twitter account (for Granma)
 * explain how to contribute for twitter noobs (Granma ?)
 * add localisation for the picture on the map
 * Think about image rotations
 * internationalisation stuff
-* add an archive page where one could see all the mails
+* Include charset detection for mailtext
+* dealing with serveral attachement ?
 * Think about twitter oauth ?
 * of course refactor shity code...
 

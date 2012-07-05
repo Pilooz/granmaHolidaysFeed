@@ -1,26 +1,4 @@
 # mail feeder for the GranmaHolidaysFeed
-
-# MailItem is an array of compoents of the mail, prepared for displaying
-class MailItem
-  attr_accessor :mailmsgid, :mailsubject, :maildate, :mailtime, :mailtext, 
-                :mailimagefile, :mailimagewidth, :mailimageheight, :mailimagelat, :mailimagelong
-                
-  def initialize(mailmsgid, mailsubject, maildate, mailtime, mailtext, 
-                mailimagefile, mailimagewidth, mailimageheight, mailimagelat, mailimagelong) 
-      @mailmsgid        = mailmsgid
-      @mailsubject      = mailsubject
-      @maildate         = maildate
-      @mailtime         = mailtime
-      @mailtext         = mailtext
-      @mailimagefile    = mailimagefile
-      @mailimagewidth   = mailimagewidth
-      @mailimageheight  = mailimageheight
-      @mailimagelat     = mailimagelat
-      @mailimagelong    = mailimagelong
-  end
-end
-
-
 class MailFeeder
   attr_accessor :listmsg
 #:lastmails, :mailmsgid, :mailsubject, :maildate, :mailtime, :mailtext, 
@@ -48,16 +26,21 @@ class MailFeeder
     # Subject
     mailsubject = @lastmails[idx].subject.force_encoding('UTF-8')
     # Date & time in separated attributes
-    date = @lastmails[idx].date.to_s.force_encoding('UTF-8')
+    date = @lastmails[idx].date.to_s.force_encoding("UTF-8")
     maildate = date[0..9]
     mailtime = date[11..18]
     # body
     mailtext = nil
-    @lastmails[idx].parts.map  do |p| 
-      if p.content_type.start_with?('text/plain') && mailtext.nil?
-        mailtext = p.body.to_s.force_encoding('UTF-8')
+    if @lastmails[idx].multipart? 
+      @lastmails[idx].parts.map  do |p| 
+        if p.content_type.start_with?('text/plain') && mailtext.nil?
+          mailtext = p.body.to_s.force_encoding("UTF-8")
+        end
       end
+    else
+      mailtext = @lastmails[idx].body.decoded.to_s.force_encoding("UTF-8")
     end
+    
     mailimagefile = nil
     mailimagewidth = nil
     mailimageheight = nil
@@ -94,6 +77,7 @@ class MailFeeder
     # A MailItem Object
     @mailItemTemp = MailItem.new(mailmsgid, mailsubject, maildate, mailtime, mailtext, mailimagefile, 
                                  mailimagewidth, mailimageheight, mailimagelat, mailimagelong)
+        
   end
   
   # Retrieves the last mail from inbox
@@ -101,15 +85,17 @@ class MailFeeder
     # When retruning only one message, objetc is not an array but a instance of mail::Message
     # So we put it in an array to retrieve needed data in the same way as getlistmails method
     lastmail = @mailconn.last
-    @lastmails.push lastmail
+    @lastmails.push lastmail 
     @listmsg.push retrievingAttr(0)
   end
   
   # Retrives a list of mails for archive page generation
   def getlistmails(nb)
     @lastmails = @mailconn.find(:what => :first, :count => nb, :order => :desc).to_a
-    @lastmails.each_index do |idx|
-       @listmsg.push retrievingAttr(idx)
+    if !lastmail.nil?
+      @lastmails.each_index do |idx|
+         @listmsg.push retrievingAttr(idx)
+      end
     end
   end
 end

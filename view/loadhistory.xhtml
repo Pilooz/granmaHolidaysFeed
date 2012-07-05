@@ -1,4 +1,4 @@
-<?r @mailconn.listmsg[1..@mailconn.listmsg.length].each do |msg| ?>
+<?r @messages.listmsg[1..@messages.listmsg.length].each do |msg| ?>
 <div class="row">
   <?r if !msg.mailimagefile.nil? ?>
     <a class="thumbnail span3" href="pictures/#{msg.mailimagefile}">

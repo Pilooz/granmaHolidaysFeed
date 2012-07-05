@@ -1,89 +1,19 @@
-<style type="text/css">
-.title {
-  font-size: 18px;
-  line-height: 27px;
-  font-weight: bold;
-  margin: 0;
-  display:block;
-}
-#btn-refresh, #btn-view-all {
-  float:right;
-}
-
-.maildate, .mailtime {
-  float:right;
-  margin-left:5px;
-}
-
-div.usage {
-  color: #0088CC;
-  margin:10px;
-}
-
-div.usage a {
-  color: black;
-  font-weight:bold;
-}
-
-.loading {
-  margin-left:47%;
-}
-</style>
-
-<script type="text/javascript">
-  // Lightbox on picture link
-  $(function() {
-  	$('a.thumbnail').lightBox(); 
-  });
-  
-  // Refreshing Gps Trace
-  function reloadIframe() {
-  	$( 'div#carte iframe' ).attr( 'src', function ( i, val ) { return val; });
-  }
-  
-  // Show all mail history
-  function showAllMails(b) {
-   };
-  
-  // loading all messages in ajax
-  $(document).ready(function(){
-    $('#btn-view-all').click(function() {  
-      $('#history').toggle();
-       if ($('#history').css('display') == 'none') {
-         $('#btn-view-all').html('<i class="icon-th-list"></i>&nbsp;Tout voir &#9658');
-       }
-       else {
-         $('#btn-view-all').html('<i class="icon-th-list"></i>&nbsp;Masquer &#9660');
-         $.ajax({
-         	  url: "/loadhistory",
-         	  success: function(result){
-             $('#history').show(function() {
-               $(this).html(result);
-             });
-        	 }
-         });
-       }  
-    });
-  });
-    
-</script>
-
 <!-- last mail -->
 <div class="row">
-  <?r if !@mailconn.listmsg[0].mailimagefile.nil? ?>
-    <a class="thumbnail span3" href="pictures/#{@mailconn.listmsg[0].mailimagefile}">
-      <img src="pictures/#{@mailconn.listmsg[0].mailimagefile}" width="260" height="180"/>
+  <?r if !@messages.listmsg[0].mailimagefile.nil? ?>
+    <a class="thumbnail span3" href="pictures/#{@messages.listmsg[0].mailimagefile}">
+      <img src="pictures/#{@messages.listmsg[0].mailimagefile}" width="260" height="180"/>
     </a>
   <?r end ?>
   
     <p class="span12 well">
       <!-- date & time -->
-      <em class="label label-success mailtime">#{@mailconn.listmsg[0].mailtime}</em>
-      <em class="label label-warning maildate">#{@mailconn.listmsg[0].maildate}</em>
+      <em class="label label-success mailtime">#{@messages.listmsg[0].mailtime}</em>
+      <em class="label label-warning maildate">#{@messages.listmsg[0].maildate}</em>
       <!-- subject, text -->
-      <span class="title">#{@mailconn.listmsg[0].mailsubject}</span>
+      <span class="title">#{@messages.listmsg[0].mailsubject}</span>
       <br>
-      #{@mailconn.listmsg[0].mailtext}
+      #{nl2br(autolink(@messages.listmsg[0].mailtext))}
       <button id="btn-view-all" class="offset9 btn btn-default"><i class="icon-th-list"></i>&nbsp;Tout voir &#9658</button>
     </p>
 </div>
