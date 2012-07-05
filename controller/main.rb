@@ -21,24 +21,24 @@ class MainController < Controller
     # One page site stuff
                 
     #Each time someone's viewving this page, we launch mail reading...
-    @mail = MailFeeder.new( MYCONF[:mail_server], 
+    @mailconn = MailFeeder.new( MYCONF[:mail_server], 
                             MYCONF[:mail_port], 
                             MYCONF[:mail_username], 
                             MYCONF[:mail_password],
                              __DIR__(MYCONF[:images_dir])
                           )
-    @mail.getlastmail
+    @mailconn.getlastmail
   end
   
   # Ajax route to laod mail history
   def loadhistory
-    @mail = MailFeeder.new( MYCONF[:mail_server], 
+    @mailconn = MailFeeder.new( MYCONF[:mail_server], 
                             MYCONF[:mail_port], 
                             MYCONF[:mail_username], 
                             MYCONF[:mail_password],
                              __DIR__(MYCONF[:images_dir])
                           )
-    @listmail = @mail.getlastmails(10)
+    @mailconn.getlistmails(10)
     render_view :loadhistory
   end
   

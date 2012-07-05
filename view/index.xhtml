@@ -25,6 +25,9 @@ div.usage a {
   font-weight:bold;
 }
 
+.loading {
+  margin-left:47%;
+}
 </style>
 
 <script type="text/javascript">
@@ -40,46 +43,55 @@ div.usage a {
   
   // Show all mail history
   function showAllMails(b) {
-    $('div#history').toggle();
-     if ($('div#history').css('display') == 'none') {
-          $('#btn-view-all').html('<i class="icon-th-list"></i>&nbsp;Tout voir &#9658');
-     }
-     else {
-          $('#btn-view-all').html('<i class="icon-th-list"></i>&nbsp;Masquer &#9660');
-          ajaxLoadAllMails();
-     }  };
+   };
   
-  // loading all mails in ajax
-  function ajaxLoadAllMails() {
-    alert ('Wait... loading mails data...');
-  }
+  // loading all messages in ajax
+  $(document).ready(function(){
+    $('#btn-view-all').click(function() {  
+      $('#history').toggle();
+       if ($('#history').css('display') == 'none') {
+         $('#btn-view-all').html('<i class="icon-th-list"></i>&nbsp;Tout voir &#9658');
+       }
+       else {
+         $('#btn-view-all').html('<i class="icon-th-list"></i>&nbsp;Masquer &#9660');
+         $.ajax({
+         	  url: "/loadhistory",
+         	  success: function(result){
+             $('#history').show(function() {
+               $(this).html(result);
+             });
+        	 }
+         });
+       }  
+    });
+  });
     
 </script>
 
 <!-- last mail -->
 <div class="row">
-  <?r if !@mail.mailimagefile.nil? ?>
-    <a class="thumbnail span3" href="pictures/#{@mail.mailimagefile}">
-      <img src="pictures/#{@mail.mailimagefile}" width="260" height="180"/>
+  <?r if !@mailconn.listmsg[0].mailimagefile.nil? ?>
+    <a class="thumbnail span3" href="pictures/#{@mailconn.listmsg[0].mailimagefile}">
+      <img src="pictures/#{@mailconn.listmsg[0].mailimagefile}" width="260" height="180"/>
     </a>
   <?r end ?>
   
     <p class="span12 well">
       <!-- date & time -->
-      <em class="label label-success mailtime">#{@mail.mailtime}</em>
-      <em class="label label-warning maildate">#{@mail.maildate}</em>
+      <em class="label label-success mailtime">#{@mailconn.listmsg[0].mailtime}</em>
+      <em class="label label-warning maildate">#{@mailconn.listmsg[0].maildate}</em>
       <!-- subject, text -->
-      <span class="title">#{@mail.mailsubject}</span>
+      <span class="title">#{@mailconn.listmsg[0].mailsubject}</span>
       <br>
-      #{@mail.mailtext}
-      <a id="btn-view-all" class="offset9 btn btn-default" href="javascript:showAllMails();"><i class="icon-th-list"></i>&nbsp;Tout voir &#9658</a>
+      #{@mailconn.listmsg[0].mailtext}
+      <button id="btn-view-all" class="offset9 btn btn-default"><i class="icon-th-list"></i>&nbsp;Tout voir &#9658</button>
     </p>
 </div>
     
 <!-- mail history -->
-<div id="history" class="row hide">
-showing mail history...
-</div>
+<span id="history" class="row hide">
+  <img class="loading" src="img/ajax_loading.gif"/>
+</span>
 
 <!-- separator -->
 <div class="row">&nbsp;</div>

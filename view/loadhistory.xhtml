@@ -1,0 +1,19 @@
+<?r @mailconn.listmsg[1..@mailconn.listmsg.length].each do |msg| ?>
+<div class="row">
+  <?r if !msg.mailimagefile.nil? ?>
+    <a class="thumbnail span3" href="pictures/#{msg.mailimagefile}">
+      <img src="pictures/#{msg.mailimagefile}" width="260" height="180"/>
+    </a>
+  <?r end ?>
+  
+    <p class="span12 well">
+      <!-- date & time -->
+      <em class="label label-success mailtime">#{msg.mailtime}</em>
+      <em class="label label-warning maildate">#{msg.maildate}</em>
+      <!-- subject, text -->
+      <span class="title">#{msg.mailsubject}</span>
+      <br>
+      #{msg.mailtext}
+    </p>
+</div>
+<?r end ?>
