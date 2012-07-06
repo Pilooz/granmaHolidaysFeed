@@ -92,7 +92,7 @@ class MailFeeder
   # Retrives a list of mails for archive page generation
   def getlistmails(nb)
     @lastmails = @mailconn.find(:what => :first, :count => nb, :order => :desc).to_a
-    if !lastmail.nil?
+    if !@lastmails.nil?
       @lastmails.each_index do |idx|
          @listmsg.push retrievingAttr(idx)
       end
