@@ -48,20 +48,19 @@ class MailFeeder
     mailimagelong = nil
     # Image Attatchement if any and storing it in public/pictures directory
     @lastmails[idx].attachments.each do | attachment |
-      # Attachments is an AttachmentsList object containing anumber of Part objects
+      # extracting images for example...
+      filename = mailmsgid + "-" + attachment.filename.downcase!
+      mailimagefile = filename
+      fullname = @images_dir +'/' + filename
+      
+      # Saving picture
+      begin
+        File.open(fullname, "w+b", 0644) {|f| f.write attachment.body.decoded} unless File.exist?(fullname)         
+      rescue Exception => e
+        puts "Unable to save data for #{filename} because #{e.message}"
+      end
+      
       if (attachment.content_type.start_with?('image/'))
-        # extracting images for example...
-        filename = mailmsgid + "-" + attachment.filename.downcase!
-        mailimagefile = filename
-        fullname = @images_dir +'/' + filename
-        
-        # Saving picture
-        begin
-          File.open(fullname, "w+b", 0644) {|f| f.write attachment.body.decoded} unless File.exist?(fullname)         
-        rescue Exception => e
-          puts "Unable to save data for #{filename} because #{e.message}"
-        end
-        
         # Playing with exif data
         begin 
           mailimagewidth = EXIFR::JPEG.new(fullname).width

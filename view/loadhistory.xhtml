@@ -1,10 +1,10 @@
-<?r @messages.listmsg[1..@messages.listmsg.length].each do |msg| ?>
+<?r @messages.listmsg.each do |msg| ?>
 <div class="well"> 
   <table class="mail">
     <tr>               
     <?r if !msg.mailimagefile.nil? ?>
       <td>
-        <a class="thumbnail span3" href="pictures/#{msg.mailimagefile}"><img src="pictures/#{msg.mailimagefile}" width="260" height="180"></a> 
+        <a class="thumbnail span3" href="content/#{msg.mailimagefile}"><img src="content/#{msg.mailimagefile}" width="260" height="180"></a> 
       </td>
     <?r else ?>
       <td class="span3 noimage">&nbsp;</td>
@@ -21,6 +21,14 @@
         </div>
       </td> 
     </tr>
+    <?r if @messages.listmsg.length == 1 ?>
+    <!-- show history button -->
+    <tr>
+      <td colspan="3" align="right">
+        <button id="btn-view-all" class="offset5 btn btn-default"><i class="icon-th-list"></i>&nbsp;Tout voir &#9658</button>
+      </td>
+    </tr>
+    <?r end ?>
   </table>
 </div>
 <?r end ?>

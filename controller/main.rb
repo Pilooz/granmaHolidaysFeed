@@ -30,6 +30,8 @@ class MainController < Controller
                       )
 
     @messages.getlistmails(20)
+    # Don't take first element because it is already dispalyed.
+    @messages.listmsg = @messages.listmsg[1..@messages.listmsg.length]
     render_view :loadhistory
   end
   
