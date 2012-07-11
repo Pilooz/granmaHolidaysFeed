@@ -37,14 +37,16 @@
   
   <!-- twitter flow -->
   <div id="filtwitter" class="span3 well" style="padding-left:0px;width:247px;">
-  <script src="http://widgets.twimg.com/j/2/widget.js"></script>
   <script>
+  
+  //http://search.twitter.com/search.json?q=from:#{MYCONF[:twitter_account]}&include_entities=true&result_type=mixed&rpp=200&show_user%20=true
   // http://www.1stwebdesigner.com/css/customize-twitter-search-widgets/
   
   new TWTR.Widget({
       version: 2,
       type: 'search', //'profile', 'list'
       search: 'from:#{MYCONF[:twitter_account]} OR #{MYCONF[:twitter_hashtag1]}', 
+      result_type: 'mixed',
       rpp: 100,
       interval: 3000,
       title: '#{MYCONF[:twitter_title]}',
