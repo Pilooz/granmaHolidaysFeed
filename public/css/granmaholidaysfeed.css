@@ -44,8 +44,14 @@ table.mail tr td {
   vertical-align: top;
 }
 
+table.mail tr td.noimage {
+/*  width: 260px;
+  padding: 28px;
+  */
+}
+
 .mailtext {
-  padding-left:20px;
+  padding-left:20px; 
 }
 
 .twitterflow {
