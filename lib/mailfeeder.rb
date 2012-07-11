@@ -49,7 +49,7 @@ class MailFeeder
     # Image Attatchement if any and storing it in public/pictures directory
     @lastmails[idx].attachments.each do | attachment |
       # extracting images for example...
-      filename = mailmsgid + "-" + attachment.filename.downcase!
+      filename = mailmsgid.downcase! + "-" + attachment.filename.downcase!
       mailimagefile = filename
       fullname = @images_dir +'/' + filename
       
@@ -71,6 +71,11 @@ class MailFeeder
         rescue Exception => e 
           puts "Unable to find exif data for #{filename} : #{e.message}"
         end
+      end
+      
+      # if attachment is a gpx file, let's convert it into kml file
+      if (attachment.content_type.start_with?('application/gpx'))
+        kml = GPX2KML.new("","Trajet du jour", "line1","line1", fullname)
       end
     end
     # A MailItem Object

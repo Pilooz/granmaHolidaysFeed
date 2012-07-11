@@ -2,7 +2,7 @@
 class MainController < Controller
        
   layout 'default'
-  set_layout nil => [:loadhistory]
+  set_layout nil => [:loadhistory, :test]
   
   # the index action is called automatically when no other action is specified
   def index
@@ -34,6 +34,9 @@ class MainController < Controller
     @messages.listmsg = @messages.listmsg[1..@messages.listmsg.length]
     render_view :loadhistory
   end
-  
+
+  def test
+    render_view :test
+  end  
 end
 
