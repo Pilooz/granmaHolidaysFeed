@@ -1,94 +1,66 @@
-<!-- last mail -->
-<div class="row">
-  <?r if !@messages.listmsg[0].mailimagefile.nil? ?>
-    <a class="thumbnail span3" href="pictures/#{@messages.listmsg[0].mailimagefile}">
-      <img src="pictures/#{@messages.listmsg[0].mailimagefile}" width="260" height="180"/>
-    </a>
-  <?r end ?>
-  
-    <p class="span12 well">
-      <!-- date & time -->
-      <em class="label label-success mailtime">#{@messages.listmsg[0].mailtime}</em>
-      <em class="label label-warning maildate">#{@messages.listmsg[0].maildate}</em>
-      <!-- subject, text -->
-      <span class="title">#{@messages.listmsg[0].mailsubject}</span>
-      <br>
-      #{nl2br(autolink(@messages.listmsg[0].mailtext))}
-      <button id="btn-view-all" class="offset9 btn btn-default"><i class="icon-th-list"></i>&nbsp;Tout voir &#9658</button>
-    </p>
-</div>
-    
-<!-- mail history -->
-<span id="history" class="row hide">
-  <img class="loading" src="img/ajax_loading.gif"/>
-</span>
+<div class="row-fluid">
+  <div class="span12">
+    <div class="row">
+      <div class="span12">
+        <!-- last mail -->
+        #{render_view :mails}              
+        <!-- mail history -->
+        <span id="history" class="row hide"><img class="loading" src="img/ajax_loading.gif"></span>
+      </div>
 
-<!-- separator -->
-<div class="row">&nbsp;</div>
+      <!-- twitter flow -->
+      <div id="filtwitter" class="span3 well twitterflow">
+        <script type="text/javascript">
+        //http://search.twitter.com/search.json?q=from:#{MYCONF[:twitter_account]}&include_entities=true&result_type=mixed&rpp=200&show_user%20=true
+        // http://www.1stwebdesigner.com/css/customize-twitter-search-widgets/
+        new TWTR.Widget({
+        version: 2,
+        type: 'search', //'profile', 'list'
+        search: 'from:#{MYCONF[:twitter_account]} OR #{MYCONF[:twitter_hashtag1]}', 
+        result_type: 'mixed',
+        rpp: 100,
+        interval: 3000,
+        title: '#{MYCONF[:twitter_title]}',
+        subject: '#{MYCONF[:twitter_subject]}',
+        width: 265,
+        height: 500,
 
-<!-- map -->
-<div class="row">
-  <div id="carte" class="span12 well">
-    <!-- BEGIN INSTAMAPPER CODE -->
-    <iframe width="100%" scrolling="no" height="568" frameborder="0" src="http://www.instamapper.com/ext?key=#{MYCONF[:instantmapper_key]}&width=800&height=500&zoom=11&type=roadmap&units=metric&coords=dms&num_points=1000" style="border:1px solid;"></iframe>
-    GPS tracking powered by <a href="http://www.instamapper.com">InstaMapper.com</a><br />
-    <a id="btn-refresh" class="offset9 btn btn-inverse" href="javascript:reloadIframe();"><i class="icon-refresh icon-white"></i>&nbsp;recharger la carte</a>
-  </div>
-  
-  <!-- twitter flow -->
-  <div id="filtwitter" class="span3 well" style="padding-left:0px;width:247px;">
-  <script src="http://widgets.twimg.com/j/2/widget.js"></script>
-  <script>
-  // http://www.1stwebdesigner.com/css/customize-twitter-search-widgets/
-  
-  new TWTR.Widget({
-      version: 2,
-      type: 'search', //'profile', 'list'
-      search: 'from:#{MYCONF[:twitter_account]} OR #{MYCONF[:twitter_hashtag1]}', 
-      rpp: 100,
-      interval: 3000,
-      title: '#{MYCONF[:twitter_title]}',
-      subject: '#{MYCONF[:twitter_subject]}',
-      width: 265,
-      height: 500,
-      
-      theme: {
-          shell: {
-              background: 'transparent', 
-              color: '0088cc'
-          },
-          tweets: {
-              background: 'transparent', 
-              color: '#D21A00',
-              links: '#4A412E'
-          }
-      },
-      
-      features: {
-          scrollbar: true,
-          loop: true,
-          live: false,
-          hashtags: true,
-          timestamp: true,
-          avatars: true,
-          toptweets: true,
-          behavior: 'default', //'all'
-      },
-      ready: function() {
-          // when done rendering...
-          // Démarrer le timer !
-      }
-      
-  }).render().start();
-  </script>
-  <style>
-  .twtr-widget h3 { font-weight:13px !important;}
-  </style>
+        theme: {
+        shell: {
+            background: 'transparent', 
+            color: '0088cc'
+        },
+        tweets: {
+            background: 'transparent', 
+            color: '#D21A00',
+            links: '#4A412E'
+        }
+        },
+
+        features: {
+        scrollbar: true,
+        loop: true,
+        live: false,
+        hashtags: true,
+        timestamp: true,
+        avatars: true,
+        toptweets: true,
+        behavior: 'default', //'all'
+        },
+        ready: function() {
+        // when done rendering...
+        // Démarrer le timer !
+        }
+
+        }).render().start();
+        </script>
+      </div>
+    </div>
   </div>
 </div>
 
 <div class="row">
-  <div class="well usage">
-    Utilisez le hashtag <a href="https://twitter.com/#{MYCONF[:twitter_hashtag1]}" target="_blank">#{MYCONF[:twitter_hashtag1]}</a> pour nous envoyer des réponses dans ce flux.
-  </div>
+    <div class="well usage">
+        Utilisez le hashtag <a href="https://twitter.com/#{MYCONF[:twitter_hashtag1]}" target="_blank">#{MYCONF[:twitter_hashtag1]}</a> pour nous envoyer des réponses dans ce flux.
+    </div>
 </div>

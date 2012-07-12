@@ -2,7 +2,7 @@
 class MainController < Controller
        
   layout 'default'
-  set_layout nil => [:loadhistory]
+  set_layout nil => [:mails, :test]
   
   # the index action is called automatically when no other action is specified
   def index
@@ -21,7 +21,7 @@ class MainController < Controller
   end
   
   # Ajax route to laod mail history
-  def loadhistory
+  def mails
     @messages = MailFeeder.new( MYCONF[:mail_server], 
                         MYCONF[:mail_port], 
                         MYCONF[:mail_username], 
@@ -30,8 +30,13 @@ class MainController < Controller
                       )
 
     @messages.getlistmails(20)
-    render_view :loadhistory
+    # Don't take first element because it is already dispalyed.
+    @messages.listmsg = @messages.listmsg[1..@messages.listmsg.length]
+    render_view :mails
   end
-  
+
+  def test
+    render_view :test
+  end  
 end
 
