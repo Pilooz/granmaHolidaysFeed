@@ -1,8 +1,6 @@
 # mail feeder for the GranmaHolidaysFeed
 class MailFeeder
   attr_accessor :listmsg
-#:lastmails, :mailmsgid, :mailsubject, :maildate, :mailtime, :mailtext, 
-#                :mailimagefile, :mailimagewidth, :mailimageheight, :mailimagelat, :mailimagelong
  
   # Initilize The connection to mail server
   def initialize(server, port, username, password, images_dir)
@@ -41,7 +39,8 @@ class MailFeeder
       mailtext = @lastmails[idx].body.decoded.to_s.force_encoding("UTF-8")
     end
     
-    mailimagefile = nil
+    mailattachmentlink = nil
+    mailattachmenttype = nil
     mailimagewidth = nil
     mailimageheight = nil
     mailimagelat = nil
@@ -50,10 +49,11 @@ class MailFeeder
     @lastmails[idx].attachments.each do | attachment |
       # extracting images for example...
       filename = mailmsgid.downcase! + "-" + attachment.filename.downcase!
-      mailimagefile = filename
+      mailattachmentlink = filename
+      mailattachmenttype = 'doc'
       fullname = @images_dir +'/' + filename
       
-      # Saving picture
+      # Saving attached doc
       begin
         File.open(fullname, "w+b", 0644) {|f| f.write attachment.body.decoded} unless File.exist?(fullname)         
       rescue Exception => e
@@ -61,7 +61,8 @@ class MailFeeder
       end
       
       if (attachment.content_type.start_with?('image/'))
-        # Playing with exif data
+        mailattachmenttype = 'image'
+        # Playing with exif data if attachment is a picture
         begin 
           mailimagewidth = EXIFR::JPEG.new(fullname).width
           mailimageheight = EXIFR::JPEG.new(fullname).height
@@ -75,12 +76,14 @@ class MailFeeder
       
       # if attachment is a gpx file, let's convert it into kml file
       if (attachment.content_type.start_with?('application/gpx'))
+        mailattachmenttype = 'gpx'
         kml = GPX2KML.new("","Trajet du jour", "line1","line1", fullname)
       end
     end
+    
     # A MailItem Object
-    @mailItemTemp = MailItem.new(mailmsgid, mailsubject, maildate, mailtime, mailtext, mailimagefile, 
-                                 mailimagewidth, mailimageheight, mailimagelat, mailimagelong)
+    @mailItemTemp = MailItem.new(mailmsgid, mailsubject, maildate, mailtime, mailtext, mailattachmentlink, 
+                                 mailattachmenttype, mailimagewidth, mailimageheight, mailimagelat, mailimagelong)
         
   end
   
