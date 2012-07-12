@@ -5,13 +5,19 @@
   margin: 0;
   display:block;
 }
+
 #btn-refresh, #btn-view-all {
-  float:right;
+  /*float:right;*/
+  margin-right:20px;
 }
 
 .maildate, .mailtime {
   float:right;
   margin-left:5px;
+}
+
+.mailtime {
+  margin-right:20px;
 }
 
 div.usage {
@@ -26,4 +32,29 @@ div.usage a {
 
 .loading {
   margin-left:47%;
+}
+
+.thumbnail {
+  margin-left:0px;
+  float: none;
+  display:block;
+}
+
+table.mail tr td {
+  vertical-align: top;
+}
+
+table.mail tr td.noimage {
+/*  width: 260px;
+  padding: 28px;
+  */
+}
+
+.mailtext {
+  padding-left:20px; 
+}
+
+.twitterflow {
+  padding-left:0px;
+  width:247px;
 }

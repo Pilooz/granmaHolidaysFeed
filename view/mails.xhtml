@@ -1,0 +1,28 @@
+<?r @messages.listmsg.each do |msg| ?>
+<div class="well"> 
+  <table class="mail">
+    <tr> 
+      #{render_view :attachment, :msg => msg}              
+      <td class="mailtext">
+        <div class="span9">
+          <!-- subject -->
+          <span class="title span9">#{msg.mailsubject}</span>
+          <!-- date & time -->
+          <em class="label label-success mailtime">#{msg.mailtime}</em>      
+          <em class="label label-warning maildate">#{msg.maildate}</em> 
+          <!-- text -->
+          #{nl2br(autolink(msg.mailtext))} 
+        </div>
+      </td> 
+    </tr>
+    <?r if @messages.listmsg.length == 1 ?>
+    <!-- show history button -->
+    <tr>
+      <td colspan="3" align="right">
+        <button id="btn-view-all" class="offset5 btn btn-default"><i class="icon-th-list"></i>&nbsp;Tout voir &#9658</button>
+      </td>
+    </tr>
+    <?r end ?>
+  </table>
+</div>
+<?r end ?>
