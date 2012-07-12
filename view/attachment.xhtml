@@ -33,8 +33,9 @@
             </script>
 
           <?r else ?>
-          Outcho ! This shity doc isn't taken in account here...
-
+          <span class="thumbnail span3">
+            <a class="btn btn-normal btn-mini" href="content/#{ @msg.mailattachmentlink }" title="Voir ce document">fichier #{ @msg.mailattachmentlink.split('.').last }</a>
+          </span>
         <?r end ?>
       </td>
     <?r else ?>
