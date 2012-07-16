@@ -2,7 +2,6 @@
 # the application.
 #
 # It will be required from either `config.ru` or `start.rb`
-require 'rubygems'
 require 'ramaze'
 
 # Make sure that Ramaze knows where you are

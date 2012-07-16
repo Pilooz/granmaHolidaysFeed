@@ -47,6 +47,10 @@ gem 'json'
 
 # Mail
 gem 'mail' 
+
+# Exif lib
+gem 'exifr'
+
  
 # Gems pour le dev
 group :development do
