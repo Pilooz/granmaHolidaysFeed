@@ -33,14 +33,18 @@ class MailFeeder
     @conn
   end
   
+  #
+  # Find and building list of mails
+  #
   def find(nb=MYCONF[:mail_queuesize])
     @mailqueue = @conn.find(:what => :first, :count => nb, :order => :desc).to_a
     
     @mailqueue.each do |mail| 
-      #sender
-      mailfrom = mail.From
       # Messageid (whitout server name)
       mailmsgid = mail.message_id.to_s[0 .. mail.message_id.to_s.index('@')-1]
+      
+      #sender
+      mailfrom = mail.From
       
       # Subject
       mailsubject = mail.subject.force_encoding('UTF-8')
@@ -109,12 +113,16 @@ class MailFeeder
     end
   end
   
+  #
   # filtering unneeded mails
+  #
   def filter!
     @listmsg.keep_if {|msg| msg.mailfrom.to_s.include? MYCONF[:mail_from] } 
   end
   
+  #
   # retrive method. This just simplify usage of the class.
+  #
   def retrieve(nb)
     connect
     find(nb)
