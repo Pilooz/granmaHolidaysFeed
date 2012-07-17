@@ -7,7 +7,7 @@ require_relative '../../lib/mailfeeder'
 describe 'Testing mailfeeder class' do
 
   before do
-    @m = MailFeeder.new(MYCONF[:attachment_dir])
+    @m = MailFeeder.new(MYCONF[:mail_attachment_dir])
 
     @mailAryFaked = Array.new 
     count = 0

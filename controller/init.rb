@@ -8,12 +8,12 @@ class Controller < Ramaze::Controller
   engine :etanni
 
   before_all do
-#    @messages = MailFeeder.new(__DIR__(MYCONF[:attachment_dir]))
+#    @messages = MailFeeder.new(__DIR__(MYCONF[:mail_attachment_dir]))
 #    @messages.retrieve(20)
 
     # set Redis
     redis = Redis.new(:host => MYCONF[:redis_server], :port => MYCONF[:redis_port])
-    @messages = MailFeeder.new(__DIR__(MYCONF[:attachment_dir]))
+    @messages = MailFeeder.new(__DIR__(MYCONF[:mail_attachment_dir]))
     @messages.listmsg = Marshal.load(redis.get("listmsg"))
 
 #    #Init current user with the cas attributs
