@@ -30,6 +30,6 @@ end
 # Set the default task to running all the bacon specifications
 task :default => [ :bacon ]
 
-multitask :start => [ 'metrics:start', 'server:start' ]
-multitask :stop => [ 'metrics:stop', 'server:stop' ]
+#multitask :start => [ 'metrics:start', 'server:start' ]
+#multitask :stop => [ 'metrics:stop', 'server:stop' ]
 
