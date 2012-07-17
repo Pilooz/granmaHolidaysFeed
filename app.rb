@@ -2,7 +2,6 @@
 # the application.
 #
 # It will be required from either `config.ru` or `start.rb`
-require 'rubygems'
 require 'ramaze'
 
 # Make sure that Ramaze knows where you are
@@ -13,7 +12,8 @@ require 'ramaze/helper/user'
 require 'yaml'
 require 'mail'
 require 'exifr'
-
+require 'redis'
+require 'json'
 
 # Initialize controllers and models
 require __DIR__('config/init')

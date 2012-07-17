@@ -1,59 +1,79 @@
 # mail feeder for the GranmaHolidaysFeed
 class MailFeeder
-  attr_accessor :listmsg
+  attr_accessor :connected, :mailqueue, :listmsg
  
   # Initilize The connection to mail server
-  def initialize(server, port, username, password, images_dir)
-    @images_dir = images_dir
-    @mailconn = Mail.defaults do
-                  retriever_method :imap, :address    => server,
-                                          :port       => port,
-                                          :user_name  => username,
-                                          :password   => password,
-                                          :enable_ssl => false
-    end
-    # An array of mail::Message
-    @lastmails = Array.new
-    # An array of MailItems
+  def initialize(attch_dir)
+    # is the connection ready ?
+    @connected = false
+    # dir for attachment
+    @attch_dir = attch_dir
+    # An array of mail::Message these are not filtered
+    @mailqueue = Array.new
+    # An array of MailItems : these mail are filtered 
     @listmsg = Array.new
   end
     
-  def retrievingAttr(idx)
-    # Verifying from address agaisnt CONFIG
-#    if @lastmails[idx].from == MYCONF[:mail_from]
+  # IMAP Cnnection method
+  # returns true if connected
+  def connect 
+    begin
+      @conn = Mail.defaults do
+          retriever_method :imap, 
+          :address    => MYCONF[:mail_server],
+          :port       => MYCONF[:mail_port],
+          :user_name  => MYCONF[:mail_username],
+          :password   => MYCONF[:mail_password],
+          :enable_ssl => false
+      end
+      @connected = true
+    rescue Exception => e
+      puts "Unable to connect to IMAP server. Reason : #{e.message}"
+    end 
+    @conn
+  end
+  
+  #
+  # Find and building list of mails
+  #
+  def find(nb=MYCONF[:mail_queuesize])
+    mailattachmentlink = mailattachmenttype = mailimagewidth = mailimageheight = mailimagelat = mailimagelong = ""
+    @mailqueue = @conn.find(:what => :first, :count => nb, :order => :desc).to_a
+    
+    @mailqueue.each do |mail| 
       # Messageid (whitout server name)
-      mailmsgid = @lastmails[idx].message_id.to_s[0 .. @lastmails[idx].message_id.to_s.index('@')-1]
+      mailmsgid = mail.message_id.to_s[0 .. mail.message_id.to_s.index('@')-1]
+      
+      #sender
+      mailfrom = mail.From
+      
       # Subject
-      mailsubject = @lastmails[idx].subject.force_encoding('UTF-8')
+      mailsubject = mail.subject.force_encoding('UTF-8')
+      
       # Date & time in separated attributes
-      date = @lastmails[idx].date.to_s.force_encoding("UTF-8")
-      maildate = date[0..9]
-      mailtime = date[11..18]
-      # body
+      maildate = mail.date.to_s.force_encoding("UTF-8")[0..9]
+      mailtime = mail.date.to_s.force_encoding("UTF-8")[11..18]
+      
+      # text
       mailtext = nil
-      if @lastmails[idx].multipart? 
-        @lastmails[idx].parts.map  do |p| 
+      if mail.multipart? 
+        mail.parts.map  do |p| 
           if p.content_type.start_with?('text/plain') && mailtext.nil?
             mailtext = p.body.to_s.force_encoding("UTF-8")
           end
         end
       else
-        mailtext = @lastmails[idx].body.decoded.to_s.force_encoding("UTF-8")
+        mailtext = mail.body.decoded.to_s.force_encoding("UTF-8")
       end
-  
-      mailattachmentlink = nil
-      mailattachmenttype = nil
-      mailimagewidth = nil
-      mailimageheight = nil
-      mailimagelat = nil
-      mailimagelong = nil
-      # Image Attatchement if any and storing it in public/pictures directory
-      @lastmails[idx].attachments.each do | attachment |
+      
+      # Attachement if any
+      mailattachmentlink = mailattachmenttype = mailimagewidth = mailimageheight = mailimagelat = mailimagelong = ""
+      mail.attachments.each do | attachment |
         # extracting images for example...
         filename = mailmsgid.downcase! + "-" + attachment.filename.downcase!
         mailattachmentlink = filename
         mailattachmenttype = 'doc'
-        fullname = @images_dir +'/' + filename
+        fullname = @attch_dir +'/' + filename
         
         # Saving attached doc
         begin
@@ -77,34 +97,31 @@ class MailFeeder
         end
         
         # if attachment is a gpx file, let's convert it into kml file
-        if (attachment.content_type.start_with?('application/gpx'))
+        if (attachment.content_type.start_with?("application/gpx", "application/x-gpx") )
           mailattachmenttype = 'gpx'
           kml = GPX2KML.new("","Trajet du jour", "line1","line1", fullname)
         end
       end
-      
-      # A MailItem Object
-      @mailItemTemp = MailItem.new(mailmsgid, mailsubject, maildate, mailtime, mailtext, mailattachmentlink, 
-                                   mailattachmenttype, mailimagewidth, mailimageheight, mailimagelat, mailimagelong)
-#   end  
- end
-  
-  # Retrieves the last mail from inbox
-  def getlastmail
-    # When retruning only one message, objetc is not an array but a instance of mail::Message
-    # So we put it in an array to retrieve needed data in the same way as getlistmails method
-    lastmail = @mailconn.last
-    @lastmails.push lastmail 
-    @listmsg.push retrievingAttr(0) 
-  end
-  
-  # Retrives a list of mails for archive page generation
-  def getlistmails(nb)
-    @lastmails = @mailconn.find(:what => :first, :count => nb, :order => :desc).to_a
-    if !@lastmails.nil?
-      @lastmails.each_index do |idx|
-         @listmsg.push retrievingAttr(idx)
-      end
+      # A MailItem Object in list 
+      @listmsg.push MailItem.new(mailmsgid, mailsubject, maildate, mailtime, mailtext, mailfrom, mailattachmentlink, 
+                                  mailattachmenttype, mailimagewidth, mailimageheight, mailimagelat, mailimagelong)
     end
   end
+  
+  #
+  # filtering unneeded mails
+  #
+  def filter!
+    @listmsg.keep_if {|msg| msg.mailfrom.to_s.include? MYCONF[:mail_from] } 
+  end
+  
+  #
+  # retrive method. This just simplify usage of the class.
+  #
+  def retrieve(nb)
+    connect
+    find(nb)
+    filter!
+  end  
+    
 end

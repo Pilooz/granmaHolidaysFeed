@@ -7,30 +7,14 @@ class MainController < Controller
   # the index action is called automatically when no other action is specified
   def index
     # One page site stuff
-                
-    #Each time someone's viewving this page, we launch mail reading...
-    # This should not be here, but where else ???
-    @messages = MailFeeder.new( MYCONF[:mail_server], 
-                        MYCONF[:mail_port], 
-                        MYCONF[:mail_username], 
-                        MYCONF[:mail_password],
-                         __DIR__(MYCONF[:images_dir])
-                      )
-
-   @messages.getlastmail
+    @first_only = true
+    @messages.listmsg = @messages.listmsg[0..0]
   end
   
-  # Ajax route to laod mail history
+  # Ajax route to load mail history
   def mails
-    @messages = MailFeeder.new( MYCONF[:mail_server], 
-                        MYCONF[:mail_port], 
-                        MYCONF[:mail_username], 
-                        MYCONF[:mail_password],
-                         __DIR__(MYCONF[:images_dir])
-                      )
-
-    @messages.getlistmails(20)
     # Don't take first element because it is already dispalyed.
+    @first_only = false
     @messages.listmsg = @messages.listmsg[1..@messages.listmsg.length]
     render_view :mails
   end

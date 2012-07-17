@@ -20,8 +20,7 @@ gem 'fnordmetric'
 #gem 'ramaze-fnordmetric-helper'
 
 # Redis
-# THINK: Voir peut etre 'hiredis' ?
-#gem 'redis'
+gem 'redis'
 
 # Hashage
 # Chiffrement mots de passe et génération de UUIDs secure (SecureRandom)
@@ -47,6 +46,10 @@ gem 'json'
 
 # Mail
 gem 'mail' 
+
+# Exif lib
+gem 'exifr'
+
  
 # Gems pour le dev
 group :development do
