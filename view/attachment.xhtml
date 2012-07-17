@@ -1,7 +1,7 @@
     <?r if @msg.mailattachmentlink != "" ?>
       <td class="attachment">
         <?r if @msg.mailattachmenttype == 'image' ?>
-            <a id="#{@msg.mailmsgid}" class="thumbnail span3" href="content/#{@msg.mailattachmentlink}"><img src="content/#{@msg.mailattachmentlink}" width="260" height="180"></a> 
+            <a id="#{@msg.mailmsgid}" class="thumbnail span3" href="content/#{ html_escape(@msg.mailattachmentlink) }"><img src="content/#{ html_escape(@msg.mailattachmentlink) }" width="260" height="180"></a> 
             <script>
             $(function() {
                     $('##{@msg.mailmsgid}').fancybox({
@@ -14,13 +14,13 @@
         
           <?r elsif @msg.mailattachmenttype =="gpx" ?>
             <!--a id="#{@msg.mailmsgid}" class="thumbnail span3" href="http://www.mappingsupport.com/p/gmap4.php?q=content/#{ @msg.mailattachmentlink.gsub('.gpx', '.kml') }"-->
-            <a id="#{@msg.mailmsgid}" class="thumbnail span3" href="https://maps.google.fr/maps?q=http://#{ MYCONF[:servername] }/content/#{ @msg.mailattachmentlink.gsub('.gpx', '.kml') }">
+            <a id="#{@msg.mailmsgid}" class="thumbnail span3" href="https://maps.google.fr/maps?q=http://#{ MYCONF[:servername] }/content/#{ html_escape(@msg.mailattachmentlink.gsub('.gpx', '.kml')) }">
 
               <img src="img/map-allemagne.gif" width="260" height="180">
             </a> 
             <br />
-            <a class="btn btn-normal btn-mini" href="content/#{ @msg.mailattachmentlink }" title="Télécharger la trace GPX">GPX</a>
-            <a class="btn btn-normal btn-mini" href="content/#{ @msg.mailattachmentlink.gsub('.gpx', '.kml') }" title="Télécharger la trace KML">KML</a>
+            <a class="btn btn-normal btn-mini" href="content/#{ html_escape(@msg.mailattachmentlink) }" title="Télécharger la trace GPX">GPX</a>
+            <a class="btn btn-normal btn-mini" href="content/#{ html_escape(@msg.mailattachmentlink.gsub('.gpx', '.kml')) }" title="Télécharger la trace KML">KML</a>
             <script>
             $(function() {
                     $('##{@msg.mailmsgid}').fancybox({
@@ -36,7 +36,7 @@
 
           <?r else ?>
           <span class="thumbnail span3">
-            <a class="btn btn-normal btn-mini" href="content/#{ @msg.mailattachmentlink }" title="Voir ce document">fichier #{ @msg.mailattachmentlink.split('.').last }</a>
+            <a class="btn btn-normal btn-mini" href="content/#{ html_escape(@msg.mailattachmentlink) }" title="Voir ce document">fichier #{ @msg.mailattachmentlink.split('.').last }</a>
           </span>
         <?r end ?>
       </td>
