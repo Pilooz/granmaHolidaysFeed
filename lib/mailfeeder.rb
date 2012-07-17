@@ -97,15 +97,12 @@ class MailFeeder
         end
         
         # if attachment is a gpx file, let's convert it into kml file
-puts "content_type is " + attachment.content_type.to_s
         if (attachment.content_type.start_with?("application/gpx", "application/x-gpx") )
           mailattachmenttype = 'gpx'
           kml = GPX2KML.new("","Trajet du jour", "line1","line1", fullname)
         end
-puts "type is " + mailattachmenttype   
       end
       # A MailItem Object in list 
-puts "type is now " + mailattachmenttype   
       @listmsg.push MailItem.new(mailmsgid, mailsubject, maildate, mailtime, mailtext, mailfrom, mailattachmentlink, 
                                   mailattachmenttype, mailimagewidth, mailimageheight, mailimagelat, mailimagelong)
     end

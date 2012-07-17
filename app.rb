@@ -12,7 +12,8 @@ require 'ramaze/helper/user'
 require 'yaml'
 require 'mail'
 require 'exifr'
-
+require 'redis'
+require 'json'
 
 # Initialize controllers and models
 require __DIR__('config/init')
