@@ -37,6 +37,7 @@ class MailFeeder
   # Find and building list of mails
   #
   def find(nb=MYCONF[:mail_queuesize])
+    mailattachmentlink = mailattachmenttype = mailimagewidth = mailimageheight = mailimagelat = mailimagelong = ""
     @mailqueue = @conn.find(:what => :first, :count => nb, :order => :desc).to_a
     
     @mailqueue.each do |mail| 
@@ -66,12 +67,7 @@ class MailFeeder
       end
       
       # Attachement if any
-      mailattachmentlink = nil
-      mailattachmenttype = nil
-      mailimagewidth = nil
-      mailimageheight = nil
-      mailimagelat = nil
-      mailimagelong = nil
+      mailattachmentlink = mailattachmenttype = mailimagewidth = mailimageheight = mailimagelat = mailimagelong = ""
       mail.attachments.each do | attachment |
         # extracting images for example...
         filename = mailmsgid.downcase! + "-" + attachment.filename.downcase!
@@ -101,13 +97,15 @@ class MailFeeder
         end
         
         # if attachment is a gpx file, let's convert it into kml file
-        if (attachment.content_type.start_with?('application/gpx'))
+puts "content_type is " + attachment.content_type.to_s
+        if (attachment.content_type.start_with?("application/gpx", "application/x-gpx") )
           mailattachmenttype = 'gpx'
           kml = GPX2KML.new("","Trajet du jour", "line1","line1", fullname)
         end
+puts "type is " + mailattachmenttype   
       end
-      
       # A MailItem Object in list 
+puts "type is now " + mailattachmenttype   
       @listmsg.push MailItem.new(mailmsgid, mailsubject, maildate, mailtime, mailtext, mailfrom, mailattachmentlink, 
                                   mailattachmenttype, mailimagewidth, mailimageheight, mailimagelat, mailimagelong)
     end

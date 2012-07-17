@@ -1,4 +1,4 @@
-    <?r if !@msg.mailattachmentlink.nil? ?>
+    <?r if @msg.mailattachmentlink != "" ?>
       <td class="attachment">
         <?r if @msg.mailattachmenttype == 'image' ?>
             <a id="#{@msg.mailmsgid}" class="thumbnail span3" href="content/#{@msg.mailattachmentlink}"><img src="content/#{@msg.mailattachmentlink}" width="260" height="180"></a> 
@@ -12,7 +12,7 @@
     	     });
             </script>
         
-          <?r elsif @msg.mailattachmenttype =='gpx' ?>
+          <?r elsif @msg.mailattachmenttype =="gpx" ?>
             <a id="#{@msg.mailmsgid}" class="thumbnail span3" href="http://www.mappingsupport.com/p/gmap4.php?q=content/#{ @msg.mailattachmentlink.gsub('.gpx', '.kml') }">
               <img src="img/map-allemagne.gif" width="260" height="180">
             </a> 
