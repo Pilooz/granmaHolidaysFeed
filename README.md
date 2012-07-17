@@ -5,7 +5,7 @@ Introduction
 ------------
 
 This is an one page web site written in ruby/ramaze that give the last inorfmations about your familie holidays to your Granma.
-The feeding of this page is done by twitter, mail, and google maps : you need only an Iphone to contribute...
+The feeding of this page is done by twitter, mail, and google maps : _you need only an Iphone to contribute_...
 
 No local storage needed. Redis caching for the mails.
 
