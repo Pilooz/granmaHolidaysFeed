@@ -2,25 +2,23 @@
 # Site configuration
 #
   :appname    : 'Title of this One page website.'
+  :servername : 'localhost'
   :title      : 'This the H1 title of this One page website.'
   :email      : 'email@company.com'
   :meta_desc  : 'Some, meta, key words'
   :meta_author: 'Author'
-  :images_dir : '../public/pictures' # The directory where the attached pictures will be stored. 
 
 #
 # Mail configuration
 #
-  :mail_server   : 'imap.mydomain.com'
-  :mail_port     : '143'
-  :mail_username : 'username'
-  :mail_password : 'very strong password'
-  :mail_signature: 'Some key you put at the end of your mail to allow the system to put  it on the page (to avoid spam)'
-
-#
-# InstantMapper Configuration
-#
-  :instantmapper_key : '0123456789' # Please enter your instantMapper key (see : http://www.instamapper.com/)
+  :mail_server        : 'imap.mydomain.com'
+  :mail_port          : '143'
+  :mail_username      : 'username'
+  :mail_password      : 'very strong password'
+  :mail_signature     : 'Some key you put at the end of your mail to allow the system to put  it on the page (to avoid spam)'
+  :mail_from          : 'myemail@mydomain.com'
+  :mail_queuesize     : '10'
+  :mail_attachment_dir: '../public/content'
 
 #
 # Twitter configuration
@@ -29,3 +27,9 @@
   :twitter_hashtag1 : 'Some hashtag (without #) if you want'
   :twitter_title    : 'Title of the twitter widget'
   :twitter_subject  : 'Subject of the twitter widget'
+
+#
+# Redis configuration
+#
+  :redis_server :  'localhost'
+  :redis_port   :  '6379'

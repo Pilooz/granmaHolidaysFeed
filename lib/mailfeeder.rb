@@ -33,14 +33,19 @@ class MailFeeder
     @conn
   end
   
+  #
+  # Find and building list of mails
+  #
   def find(nb=MYCONF[:mail_queuesize])
+    mailattachmentlink = mailattachmenttype = mailimagewidth = mailimageheight = mailimagelat = mailimagelong = ""
     @mailqueue = @conn.find(:what => :first, :count => nb, :order => :desc).to_a
     
     @mailqueue.each do |mail| 
-      #sender
-      mailfrom = mail.From
       # Messageid (whitout server name)
       mailmsgid = mail.message_id.to_s[0 .. mail.message_id.to_s.index('@')-1]
+      
+      #sender
+      mailfrom = mail.From
       
       # Subject
       mailsubject = mail.subject.force_encoding('UTF-8')
@@ -62,12 +67,7 @@ class MailFeeder
       end
       
       # Attachement if any
-      mailattachmentlink = nil
-      mailattachmenttype = nil
-      mailimagewidth = nil
-      mailimageheight = nil
-      mailimagelat = nil
-      mailimagelong = nil
+      mailattachmentlink = mailattachmenttype = mailimagewidth = mailimageheight = mailimagelat = mailimagelong = ""
       mail.attachments.each do | attachment |
         # extracting images for example...
         filename = mailmsgid.downcase! + "-" + attachment.filename.downcase!
@@ -97,24 +97,27 @@ class MailFeeder
         end
         
         # if attachment is a gpx file, let's convert it into kml file
-        if (attachment.content_type.start_with?('application/gpx'))
+        if (attachment.content_type.start_with?("application/gpx", "application/x-gpx") )
           mailattachmenttype = 'gpx'
           kml = GPX2KML.new("","Trajet du jour", "line1","line1", fullname)
         end
       end
-      
       # A MailItem Object in list 
       @listmsg.push MailItem.new(mailmsgid, mailsubject, maildate, mailtime, mailtext, mailfrom, mailattachmentlink, 
                                   mailattachmenttype, mailimagewidth, mailimageheight, mailimagelat, mailimagelong)
     end
   end
   
+  #
   # filtering unneeded mails
+  #
   def filter!
     @listmsg.keep_if {|msg| msg.mailfrom.to_s.include? MYCONF[:mail_from] } 
   end
   
+  #
   # retrive method. This just simplify usage of the class.
+  #
   def retrieve(nb)
     connect
     find(nb)
