@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+              <kml xmlns="http://earth.google.com/kml/2.2">
+                <Document>
+                  <name></name>
+                  <description>Trajet du jour</description>
+              
+                  <Style id="line1">
+                    <LineStyle>
+                      <color>ff0000ff</color>
+                    </LineStyle>
+                  </Style>
+              
+                  <Placemark>
+                    <name>line1</name>
+                    <styleUrl>#line1</styleUrl>
+                    <LineString>
+                      <altitudeMode>relative</altitudeMode>
+                      <coordinates>4.711560,45.873846,214.437798
+4.711713,45.873562,215.437740
+</coordinates></LineString></Placemark></Document></kml>

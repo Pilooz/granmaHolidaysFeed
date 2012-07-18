@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" creator="EasyTrails" version="1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+	<trk>
+		<name><![CDATA[Test]]></name>
+		<desc><![CDATA[14 juil. 2012 17:20:26]]></desc>
+		<trkseg>
+			<trkpt lat="45.873846" lon="4.711560">
+				<ele>214.437798</ele>
+				<time>2012-07-14T15:20:29Z</time>
+				<hdop>9.484327</hdop>
+				<vdop>14.056200</vdop>
+			</trkpt>
+			<trkpt lat="45.873562" lon="4.711713">
+				<ele>215.437740</ele>
+				<time>2012-07-14T15:20:50Z</time>
+				<hdop>9.484327</hdop>
+				<vdop>14.056200</vdop>
+			</trkpt>
+		</trkseg>
+	</trk>
+</gpx>

@@ -18,9 +18,5 @@ class MainController < Controller
     @messages.listmsg = @messages.listmsg[1..@messages.listmsg.length]
     render_view :mails
   end
-
-  def test
-    render_view :test
-  end  
 end
 

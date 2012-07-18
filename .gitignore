@@ -1,3 +1,4 @@
 public/content/*
 config/*.yml
 Gemfile.lock
+coverage/*
