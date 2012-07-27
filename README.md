@@ -21,7 +21,7 @@ This could work with other smartphone.
 Real Demo
 ---------
 
-See an example on (![Danube A vélo](http://danubeavelo.famille-levallois.net))
+See an example on [Danube A vélo][1]
 
 Roadmap
 -------
@@ -42,3 +42,6 @@ Next TODO:
 
 Installation
 ------------
+
+
+[1]: http://danubeavelo.famille-levallois.net
