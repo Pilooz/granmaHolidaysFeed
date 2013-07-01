@@ -21,7 +21,7 @@ This could work with other smartphone.
 Real Demo
 ---------
 
-See an example on (![Danube A vélo](http://danubeavelo.famille-levallois.net))
+See an example on (![Danube A vélo](http://danubeavelo.famille-levallois.net)) http://danubeavelo.famille-levallois.net
 
 Roadmap
 -------
